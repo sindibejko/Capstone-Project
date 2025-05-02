@@ -1,0 +1,58 @@
+# Murban Crude Oil Futures EDA
+
+# Import Libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Load dataset
+df = pd.read_csv('Abu Dhabi Murban Crude Oil Futures Historical Data.csv')
+
+# Basic Info
+print("Dataset Info:")
+print(df.info())
+print("\nFirst 5 rows:")
+print(df.head())
+
+# Missing Values
+print("\nMissing Values:")
+print(df.isnull().sum())
+
+# Descriptive Statistics
+print("\nDescriptive Statistics:")
+print(df.describe())
+
+# Convert 'Date' to datetime and sort
+df['Date'] = pd.to_datetime(df['Date'], format='%m/%d/%Y')
+df = df.sort_values('Date')
+df.set_index('Date', inplace=True)
+
+# Plot Closing Price
+plt.figure(figsize=(10, 5))
+plt.plot(df['Price'])
+plt.title('Murban Crude Oil Futures Closing Prices Over Time')
+plt.xlabel('Date')
+plt.ylabel('Price (USD)')
+plt.grid(True)
+plt.show()
+
+# Distribution of Prices
+plt.figure(figsize=(8, 4))
+sns.histplot(df['Price'], bins=30, kde=True)
+plt.title('Distribution of Closing Prices')
+plt.xlabel('Price (USD)')
+plt.grid(True)
+plt.show()
+
+# Boxplot
+plt.figure(figsize=(6, 4))
+sns.boxplot(y=df['Price'])
+plt.title('Boxplot of Closing Prices')
+plt.grid(True)
+plt.show()
+
+# Correlation Heatmap
+plt.figure(figsize=(6, 5))
+sns.heatmap(df[['Price', 'Open', 'High', 'Low']].corr(), annot=True, cmap='Blues')
+plt.title('Correlation Matrix')
+plt.show()
