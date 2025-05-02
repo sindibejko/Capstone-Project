@@ -1,0 +1,52 @@
+# OVX Volatility Index EDA
+
+# Import Libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Load dataset
+df = pd.read_csv('OVXCLS.csv')
+
+# Basic Info
+print("OVX Dataset Info:")
+print(df.info())
+print("\nFirst 5 rows:")
+print(df.head())
+
+# Missing Values
+print("\nMissing Values:")
+print(df.isnull().sum())
+
+# Descriptive Statistics
+print("\nDescriptive Statistics:")
+print(df.describe())
+
+# Convert 'observation_date' to datetime and sort
+df['observation_date'] = pd.to_datetime(df['observation_date'])
+df = df.sort_values('observation_date')
+df.set_index('observation_date', inplace=True)
+
+# Plot OVX Index Over Time
+plt.figure(figsize=(10, 5))
+plt.plot(df['OVXCLS'])
+plt.title('OVX Volatility Index Over Time')
+plt.xlabel('Date')
+plt.ylabel('Volatility (%)')
+plt.grid(True)
+plt.show()
+
+# Distribution of OVX
+plt.figure(figsize=(8, 4))
+sns.histplot(df['OVXCLS'], bins=30, kde=True)
+plt.title('Distribution of OVX Values')
+plt.xlabel('Volatility (%)')
+plt.grid(True)
+plt.show()
+
+# Boxplot
+plt.figure(figsize=(6, 4))
+sns.boxplot(y=df['OVXCLS'])
+plt.title('Boxplot of OVX Volatility Values')
+plt.grid(True)
+plt.show()
