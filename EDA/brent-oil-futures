@@ -1,0 +1,52 @@
+# Brent Crude Oil Futures EDA
+
+# Import Libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Load dataset
+df = pd.read_csv('Brent Oil Futures Historical Data.csv')
+
+# Basic Info
+print("Brent Dataset Info:")
+print(df.info())
+print("\nFirst 5 rows:")
+print(df.head())
+
+# Missing Values
+print("\nMissing Values:")
+print(df.isnull().sum())
+
+# Descriptive Statistics
+print("\nDescriptive Statistics:")
+print(df.describe())
+
+# Convert 'Date' to datetime and sort
+df['Date'] = pd.to_datetime(df['Date'], format='%m/%d/%Y')
+df = df.sort_values('Date')
+df.set_index('Date', inplace=True)
+
+# Plot Closing Price
+plt.figure(figsize=(10, 5))
+plt.plot(df['Price'])
+plt.title('Brent Crude Oil Futures Closing Prices Over Time')
+plt.xlabel('Date')
+plt.ylabel('Price (USD)')
+plt.grid(True)
+plt.show()
+
+# Distribution of Prices
+plt.figure(figsize=(8, 4))
+sns.histplot(df['Price'], bins=30, kde=True)
+plt.title('Distribution of Brent Closing Prices')
+plt.xlabel('Price (USD)')
+plt.grid(True)
+plt.show()
+
+# Boxplot
+plt.figure(figsize=(6, 4))
+sns.boxplot(y=df['Price'])
+plt.title('Boxplot of Brent Closing Prices')
+plt.grid(True)
+plt.show()
